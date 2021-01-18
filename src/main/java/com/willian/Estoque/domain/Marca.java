@@ -1,5 +1,6 @@
 package com.willian.Estoque.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class Marca implements Serializable {
     private Integer id;
     private String descricao;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "marca")
     private List<Produto> produtos = new ArrayList<>();
 }

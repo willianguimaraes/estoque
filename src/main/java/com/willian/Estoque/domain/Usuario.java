@@ -1,5 +1,6 @@
 package com.willian.Estoque.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,8 +24,11 @@ public class Usuario implements Serializable {
     private String nome;
     private String email;
     private String cpfCnpj;
+
+    @JsonIgnore
     private String senha;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "usuario")
     private List<Pedido> pedidos = new ArrayList<>();
 }

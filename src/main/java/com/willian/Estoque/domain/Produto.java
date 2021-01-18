@@ -1,10 +1,7 @@
 package com.willian.Estoque.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,7 +21,7 @@ public class Produto implements Serializable {
     private String descricao;
     private String numSerie;
 
-    @JsonBackReference
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "PRODUTO_CATEGORIA",
             joinColumns = @JoinColumn(name = "produto_id"),
@@ -34,5 +31,18 @@ public class Produto implements Serializable {
     @ManyToOne
     @JoinColumn(name = "marca_id")
     private Marca marca;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "item.produto")
+    private List<ItemPedido> itens = new ArrayList<>();
+
+    @JsonIgnore
+    public List<Pedido> getPedidos(){
+        List<Pedido> lista = new ArrayList<>();
+        for (ItemPedido itemPedido : itens ) {
+            lista.add(itemPedido.getPedido());
+        }
+        return lista;
+    }
 
 }
